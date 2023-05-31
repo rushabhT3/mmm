@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login AWS</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            text-align: center;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .form {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: right;
+        }
+
+        .form label {
+            display: block;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .form input[type="email"],
+        .form input[type="password"] {
+            border: 1px solid #030303;
+            border-radius: 3px;
+            display: block;
+            font-size: 16px;
+            margin-bottom: 20px;
+            padding: 10px;
+            width: calc(100% - 22px);
+            /* reduce width by 22px to match button size */
+        }
+
+        .form button[type="submit"] {
+            background-color: #2ecc71;
+            border: none;
+            border-radius: 3px;
+            color: #ffffff;
+            cursor: pointer;
+            display: block;
+            font-size: 16px;
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin: 20px auto 0;
+            width: 200px;
+            font-size: 16px;
+            color: #015e2f;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Login to your account</h1>
+        <form class="form" onsubmit="login(event)">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Log In</button>
+        </form>
+        <a href="../signUp/signUp.html">New User? Sign Up!</a>
+        <a href="../forgetPassword/forgetPassword.html">Forgot Password? Click here!</a>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+        <script src="login.js"></script>
+    </div>
+</body>
+
+</html>

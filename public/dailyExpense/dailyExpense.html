@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Expense Tracker</title>
+    <style>
+        :root {
+            --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+        }
+
+        header {
+            background-color: #2ecc71;
+            color: #FFFFFF;
+            text-align: center;
+            height: 75px;
+            width: 100%;
+        }
+
+        .container {
+            margin: 30px auto;
+            width: 350px;
+        }
+
+        h1 {
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        h3 {
+            border-bottom: 1px solid #bbb;
+            padding-bottom: 10px;
+            margin: 40px 0 10px;
+        }
+
+        h4 {
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .inc-exp-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .inc-exp-container>div {
+            flex: 1;
+            text-align: center;
+        }
+
+        .inc-exp-container>div:first-of-type {
+            border-right: 1px solid #dedede;
+        }
+
+        .money {
+            font-size: 20px;
+            letter-spacing: 1px;
+            margin: 5px 0;
+        }
+
+        .money.plus {
+            color: #2ecc71;
+        }
+
+        .money.minus {
+            color: #c0392b;
+        }
+
+        .btn-premium {
+            background-color: gold;
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-premium:hover {
+            background-color: #c9b037;
+        }
+
+        label {
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        input[type='text'],
+        input[type='number'],
+        select {
+            border: 1px solid #dedede;
+            border-radius: 5px;
+            display: block;
+            font-size: 16px;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .btn {
+            cursor: pointer;
+            background-color: #0366D6;
+            box-shadow: var(--box-shadow);
+            color: #fff;
+            border: 0;
+            display: block;
+            font-size: 16px;
+            margin: 10px 0 30px;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .btn:focus,
+        .delete-btn:focus {
+            outline: 0;
+        }
+
+        #downloadexpense,
+        #leaderboard,
+        #periodic {
+            background-color: #f9f9f9;
+            /* Updated background color */
+            border-radius: 8px;
+            /* Reduced border radius */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Adjusted box shadow */
+            padding: 15px;
+            /* Reduced padding */
+            margin-bottom: 15px;
+            /* Reduced margin */
+        }
+
+        #downloadexpense h3,
+        #leaderboard h3,
+        #periodic h3 {
+            border-bottom: 1px solid #ccc;
+            /* Lighter border color */
+            padding-bottom: 5px;
+            /* Reduced padding */
+            margin-bottom: 15px;
+            /* Reduced margin */
+        }
+
+        #downloadexpense .file-link,
+        #leaderboard .user-list,
+        #periodic .periodic-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #downloadexpense .file-link li,
+        #leaderboard .user-list li,
+        #periodic .periodic-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            /* Reduced padding */
+            margin-bottom: 8px;
+            /* Reduced margin */
+            background-color: #f7f7f7;
+            /* Lighter background color */
+            border-radius: 4px;
+            /* Reduced border radius */
+        }
+
+        #downloadexpense .file-link li:last-child,
+        #leaderboard .user-list li:last-child,
+        #periodic .periodic-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        #downloadexpense .file-link .file-name,
+        #leaderboard .user-list .user-name,
+        #periodic .periodic-list .periodic-item {
+            font-weight: bold;
+        }
+
+        #downloadexpense .file-link .file-url,
+        #leaderboard .user-list .user-points,
+        #periodic .periodic-list .periodic-frequency {
+            color: #666;
+            /* Adjusted text color */
+        }
+
+        .nice-button {
+            background-color: #5cb85c;
+            /* Updated button color */
+            color: #fff;
+            padding: 8px 16px;
+            /* Adjusted padding */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 8px;
+            /* Reduced margin */
+        }
+
+        .nice-button:hover {
+            background-color: #4cae4c;
+            /* Darker hover color */
+        }
+
+        #leaderboardList {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .leaderboard-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .leaderboard-name {
+            font-weight: bold;
+        }
+
+        .leaderboard-total-expense {
+            color: #555;
+        }
+
+
+
+        .list {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 40px;
+        }
+
+        .list li {
+            background-color: #fff;
+            box-shadow: var(--box-shadow);
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .list li.plus {
+            border-right: 5px solid #2ecc71;
+        }
+
+        .list li.minus {
+            border-right: 5px solid #c0392b;
+        }
+
+        .delete-btn {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #cc0000;
+        }
+
+        .list li:hover .delete-btn {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>Expense Tracker</h2>
+    </header>
+
+    <div class="container">
+        <h4>Your Balance</h4>
+        <h1 id="balance">$0.00</h1>
+
+        <div class="inc-exp-container">
+            <div>
+                <h4>Income</h4>
+                <p id="money-plus" class="money plus">+$0.00</p>
+            </div>
+            <div>
+                <h4>Expense</h4>
+                <p id="money-minus" class="money minus">-$0.00</p>
+            </div>
+        </div>
+
+        <button class="btn-premium" id="rzp-button1">
+            <i class="fas fa-crown"></i> Buy Premium Membership!
+        </button>
+
+        <div id="downloadexpense"></div>
+        <div id="downloadedFiles"></div>
+
+        <div id="leaderboard"></div>
+
+        <!-- <div id="periodic"></div> -->
+
+        <h3>History</h3>
+        <label for="limit">Items per page:</label>
+        <select id="limit">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+        </select>
+
+        <div id="pagination">
+            <button id="prevPageBtn" class="btn-pagination" disabled>
+                Previous Page
+            </button>
+            <span id="currentPage">1</span>
+            <button id="nextPageBtn" class="btn-pagination">
+                Next Page
+            </button>
+        </div>
+        <ul id="list" class="list"></ul>
+
+
+        <h3>Add new transaction</h3>
+        <form id="form" onsubmit="dailyExpense(event)">
+            <div class="form-control">
+                <label for="amount">Amount </label>
+                <input type="number" id="amount" name="amount" placeholder="Enter amount in Rs." required />
+            </div>
+            <div class="form-control">
+                <label for="description">Description </label>
+                <input type="text" id="description" name="description"
+                    placeholder="Enter description for transaction..." required />
+            </div>
+            <div class="form-control">
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    <option value="food">Food</option>
+                    <option value="petrol">Petrol</option>
+                    <option value="movie">Movie</option>
+                </select>
+            </div>
+            <button class="btn" type="submit">Add transaction</button>
+        </form>
+
+
+    </div>
+
+    <script src="dailyExpense.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</body>
+
+</html>
