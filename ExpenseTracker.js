@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const helmet = require("helmet");
+// const helmet = require("helmet");
 const fs = require("fs");
 const path = require("path");
-const morgan = require("morgan");
+// const morgan = require("morgan");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -29,8 +29,8 @@ const accessLogStream = fs.createWriteStream(
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
-app.use(helmet());
-app.use(morgan("combined", { stream: accessLogStream }));
+// app.use(helmet());
+// app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use("/purchase", purchaseRoutes);
 app.use("/premium", premiumFeatureRoutes);
