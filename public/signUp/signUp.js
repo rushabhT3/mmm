@@ -10,7 +10,7 @@ async function onSignUp(event) {
     // console.log(signUpDetails);
 
     const response = await axios.post(
-      "http://localhost:3000/user/signup",
+      "http://15.206.28.85:3000/user/signup",
       signUpDetails
     );
     event.target.reset();

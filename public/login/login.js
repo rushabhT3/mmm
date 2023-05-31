@@ -6,7 +6,7 @@ async function login(event) {
       password: event.target.password.value,
     };
     const response = await axios.post(
-      "http://localhost:3000/user/login",
+      "http://15.206.28.85:3000/user/login",
       loginDetails
     );
     // alert(response.data.message);
