@@ -13,12 +13,14 @@ apikey.apiKey = process.env.BREVO_API_KEY;
 const forgotpassword = async (req, res) => {
   try {
     const { email } = req.body;
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ email });
     if (user) {
       const id = uuid.v4();
-      user.createForgotpassword({ id, active: true }).catch((err) => {
-        throw new Error(err);
-      });
+      // user.createForgotpassword({ id, active: true }).catch((err) => {
+      //   throw new Error(err);
+      // });
+      const forgotpassword = new Forgotpassword({ id, active: true, user: user._id });
+      await forgotpassword.save();
       // Send email using Sendinblue API
       const sendinblue = new SibApiV3Sdk.TransactionalEmailsApi();
 
@@ -31,7 +33,7 @@ const forgotpassword = async (req, res) => {
         subject: "Reset Your Password",
         htmlContent: `<p>Hello,</p>
                       <p>Please click the following link to reset your password:</p>
-                      <p><a href="http://15.206.28.85:3000/password/resetpassword/${id}">Reset password</a></p>
+                      <p><a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a></p>
                       <p>If you did not request a password reset, please ignore this email.</p>
                       <p>Thank you!</p>`,
       };
@@ -53,9 +55,10 @@ const forgotpassword = async (req, res) => {
 const resetpassword = async (req, res) => {
   try {
     const id = req.params.id;
-    const forgotpasswordrequest = await Forgotpassword.findOne({
-      where: { id },
-    });
+    const forgotpasswordrequest = await Forgotpassword.findById(id);
+    // const forgotpasswordrequest = await Forgotpassword.findOne({
+    //   where: { id },
+    // });
     if (forgotpasswordrequest) {
       forgotpasswordrequest.update({ active: false });
       res.status(200).send(`<!DOCTYPE html>
@@ -125,12 +128,14 @@ const updatepassword = async (req, res) => {
   try {
     const { newpassword } = req.query;
     const { resetpasswordid } = req.params;
-    resetpasswordrequest = await Forgotpassword.findOne({
-      where: { id: resetpasswordid },
-    });
-    const user = await User.findOne({
-      where: { id: resetpasswordrequest.UserId },
-    });
+    // resetpasswordrequest = await Forgotpassword.findOne({
+    //   where: { id: resetpasswordid },
+    // });
+    // const user = await User.findOne({
+    //   where: { id: resetpasswordrequest.UserId },
+    // });
+    const resetpasswordrequest = await Forgotpassword.findById(resetpasswordid); 
+    const user = await User.findById(resetpasswordrequest.UserId);
     if (user) {
       //encrypt the password
       const saltRounds = 10;
@@ -145,7 +150,9 @@ const updatepassword = async (req, res) => {
             console.log(err);
             throw new Error(err);
           }
-          user.update({ password: hash }).then(() => {
+          // user.update({ password: hash }).then(() => {
+          user.password = hash; 
+          user.save().then(() => { 
             res
               .status(201)
               .json({ message: "Successfuly update the new password" });

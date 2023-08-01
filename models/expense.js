@@ -1,20 +1,46 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const {Schema, model} = require("mongoose");
 
-const sequelize = require("../util/database");
-
-const dailyExpense = sequelize.define("dailyExpense", {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-  },
+const dailyExpenseSchema = new Schema({
   amount: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    type: Number,
+    required: true,
   },
-  description: { type: DataTypes.STRING, allowNull: false },
-  category: { type: DataTypes.STRING, allowNull: false },
+  description: {
+    type: String,
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
-module.exports = dailyExpense;
+const DailyExpense = model("DailyExpense", dailyExpenseSchema);
+
+module.exports = DailyExpense;
+
+// const { Sequelize, DataTypes } = require("sequelize");
+
+// const sequelize = require("../util/database");
+
+// const dailyExpense = sequelize.define("dailyExpense", {
+//   id: {
+//     type: DataTypes.INTEGER,
+//     allowNull: false,
+//     autoIncrement: true,
+//     primaryKey: true,
+//   },
+//   amount: {
+//     type: DataTypes.INTEGER,
+//     allowNull: false,
+//   },
+//   description: { type: DataTypes.STRING, allowNull: false },
+//   category: { type: DataTypes.STRING, allowNull: false },
+// });
+
+// module.exports = dailyExpense;

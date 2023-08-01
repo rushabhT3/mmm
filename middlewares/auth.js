@@ -6,7 +6,7 @@ exports.authenticate = async (req, res, next) => {
   try {
     const token = req.header("Authorization"); // ? This gets the token from the request header
     const user = jwt.verify(token, "secretkey2"); // ? This checks if the token is real using a secret key
-    const authUser = await User.findByPk(user.jwtId); // ? This looks up the user's information using their ID
+    const authUser = await User.findById(user.jwtId); // ? This looks up the user's information using their ID
     // console.log({ authUser });
     // console.log(JSON.stringify(authUser));
     req.authUser = authUser; // ? This adds the user's information to the request so we can use it later

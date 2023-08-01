@@ -1,3 +1,4 @@
+
 async function onSignUp(event) {
   try {
     event.preventDefault();
@@ -7,12 +8,12 @@ async function onSignUp(event) {
       email: event.target.email.value,
       password: event.target.password.value,
     };
-    // console.log(signUpDetails);
-
+    
     const response = await axios.post(
-      "http://15.206.28.85:3000/user/signup",
+      "http://localhost:3000/user/signup",
       signUpDetails
-    );
+      );
+      console.log(signUpDetails);
     event.target.reset();
     if (response.status === 201) {
       //window.location.href can also be used to change the URL of the current web page by assigning a new value to it.
